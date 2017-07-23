@@ -1,0 +1,1 @@
+datenname={'Aquadest K9','BodyMilk K9','CremeFresh K9','Glyzerin K9','Glyzerin-Wasser 1-1 K9','Joghurt K9','Kaffeesahne K9','Leitungswasser K9','Luft K9','Propylenglykol K9','Quark K9','Rama K9','Sahne 0 K9','Sahne +1 K9','Sahne +2 K9','Sahne alt 0 K9','Sahne alt 0 K9','Sahne alt +2 K9','Sahne alt -1 K9','Vernel K9','?l K9'};
