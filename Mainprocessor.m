@@ -1,11 +1,11 @@
-function [Rohsignal,Idealsignal,Gefiltsignal,gefiltPPRR,idealPPRR,gefiltCM,CMdiff,MSE]=Mainprocessor(datenname,RemovelMethode)
+function [Rohsignal,Idealsignal,Gefiltsignal,PPRR,CM,MSE]=Mainprocessor(datenname,RemovelAnsatz,Path_Meas,Path_Gold)
 
 
 %%#1 Daten Einladen
-[Rohsignal,Idealsignal]=DatenRead(datenname);
+[Rohsignal,Idealsignal]=DatenRead(datenname,Path_Meas,Path_Gold);
 
 %%#2 Clutter Remove
-if strcmp(RemovelMethode,'UWBAverageSubstraktion')
+if strcmp(RemovelAnsatz,'UWBAverageSubtraktion')
     for i=0:1:26;
         KanalNr=IDChannel(i);
         if isempty(KanalNr);
@@ -15,13 +15,13 @@ if strcmp(RemovelMethode,'UWBAverageSubstraktion')
             Gefiltsignal(:,KanalNr)=Rohsignal(:,KanalNr);
         end
         if length(KanalNr)>=2;
-            filtersig=UWBAverageSubstraktion(Rohsignal,KanalNr);
+            filtersig=UWBAverageSubtraktion(Rohsignal,KanalNr);
             Gefiltsignal(:,KanalNr)=filtersig(:,KanalNr);
         end
     end
 end
 
-if strcmp(RemovelMethode,'UWBSVD_optimal')
+if strcmp(RemovelAnsatz,'UWBSVD_optimal')
     for i=0:1:26;
         KanalNr=IDChannel(i);
         if isempty(KanalNr);
@@ -37,7 +37,7 @@ if strcmp(RemovelMethode,'UWBSVD_optimal')
     end
 end
 
-if strcmp(RemovelMethode,'UWBSVD_2')
+if strcmp(RemovelAnsatz,'UWBSVD_2')
     for i=0:1:26;
         KanalNr=IDChannel(i);
         if isempty(KanalNr);
@@ -53,7 +53,7 @@ if strcmp(RemovelMethode,'UWBSVD_2')
     end
 end
 
-if strcmp(RemovelMethode,'UWBEntropie_1')
+if strcmp(RemovelAnsatz,'UWBEntropie')
     alpha=3; window=50;
     for i=0:1:26;
         KanalNr=IDChannel(i);
@@ -64,12 +64,11 @@ if strcmp(RemovelMethode,'UWBEntropie_1')
             Gefiltsignal(:,KanalNr)=Rohsignal(:,KanalNr);
         end
         if length(KanalNr)>=2;
-            %filtersig=UWBEntropie(Rohsignal,KanalNr,alpha,window);
-            filtersig=UWBEntropie_1(Rohsignal,KanalNr,alpha);
+            filtersig=UWBEntropie(Rohsignal,KanalNr,alpha,window);
             Gefiltsignal(:,KanalNr)=filtersig(:,KanalNr);
         end
     end
 end
 %%#3 Bewertung
-[gefiltPPRR,idealPPRR,gefiltCM,CMdiff,MSE]=Bewertung(Rohsignal,Idealsignal,Gefiltsignal);
+[PPRR,CM,MSE]=Bewertung(Rohsignal,Idealsignal,Gefiltsignal);
 end

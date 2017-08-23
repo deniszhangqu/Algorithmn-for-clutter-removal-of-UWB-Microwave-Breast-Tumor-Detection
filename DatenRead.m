@@ -1,7 +1,5 @@
-function [Rohsignal,Idealsignal]=DatenRead(datenname)
+function [Rohsignal,Idealsignal]=DatenRead(datenname,Path_Meas,Path_Gold)
 N_Interp = 1; %%Interpolationsfaktor 511*16=8176
-Path_Meas = 'C:\Users\zhang\Desktop\Signalverarbeitung\Hauptseminar\Daten\Messdaten - NSI\Testmessungen\';
-Path_Gold = 'C:\Users\zhang\Desktop\Signalverarbeitung\Hauptseminar\Daten\Messdaten - NSI\Goldstandards\';
 l=length(datenname);
 s1=datenname(l-1:l);
 s2='Gold';

@@ -1,5 +1,5 @@
 
-function [filtersig]=UWBAverageSubstraktion(Rohsignal,KanalNr)
+function [filtersig]=UWBAverageSubtraktion(Rohsignal,KanalNr)
 
 
 l=size(KanalNr,2);
