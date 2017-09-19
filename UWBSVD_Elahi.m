@@ -1,6 +1,6 @@
 
 
-function [filtersig]=UWBSVD_optimal(Rohsignal,KanalNr)
+function [filtersig]=UWBSVD_Elahi(Rohsignal,KanalNr)
 
 l=size(KanalNr,2);
 

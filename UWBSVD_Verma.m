@@ -1,6 +1,6 @@
 
 
-function [filtersig]=UWBSVD_2(Rohsignal,KanalNr)
+function [filtersig]=UWBSVD_Verma(Rohsignal,KanalNr)
 
 l=size(KanalNr,2);
 

@@ -1,8 +1,8 @@
-function [Rohsignal,Idealsignal,Gefiltsignal,PPRR,CM,MSE]=Mainprocessor(datenname,RemovelAnsatz,Path_Meas,Path_Gold)
+function [Rohsignal,Idealsignal,Gefiltsignal,PPRR,CM,MSE]=Mainprocessor(Messungname,RemovelAnsatz,Path_Meas,Path_Gold)
 
 
 %%#1 Daten Einladen
-[Rohsignal,Idealsignal]=DatenRead(datenname,Path_Meas,Path_Gold);
+[Rohsignal,Idealsignal]=DatenRead(Messungname,Path_Meas,Path_Gold);
 
 %%#2 Clutter Remove
 if strcmp(RemovelAnsatz,'UWBAverageSubtraktion')
@@ -21,7 +21,7 @@ if strcmp(RemovelAnsatz,'UWBAverageSubtraktion')
     end
 end
 
-if strcmp(RemovelAnsatz,'UWBSVD_optimal')
+if strcmp(RemovelAnsatz,'UWBSVD_Elahi')
     for i=0:1:26;
         KanalNr=IDChannel(i);
         if isempty(KanalNr);
@@ -31,13 +31,13 @@ if strcmp(RemovelAnsatz,'UWBSVD_optimal')
             Gefiltsignal(:,KanalNr)=Rohsignal(:,KanalNr);
         end
         if length(KanalNr)>=2;
-            filtersig=UWBSVD_optimal(Rohsignal,KanalNr);
+            filtersig=UWBSVD_Elahi(Rohsignal,KanalNr);
             Gefiltsignal(:,KanalNr)=filtersig(:,KanalNr);
         end
     end
 end
 
-if strcmp(RemovelAnsatz,'UWBSVD_2')
+if strcmp(RemovelAnsatz,'UWBSVD_Verma')
     for i=0:1:26;
         KanalNr=IDChannel(i);
         if isempty(KanalNr);
@@ -47,7 +47,7 @@ if strcmp(RemovelAnsatz,'UWBSVD_2')
             Gefiltsignal(:,KanalNr)=Rohsignal(:,KanalNr);
         end
         if length(KanalNr)>=2;
-            filtersig=UWBSVD_2(Rohsignal,KanalNr);
+            filtersig=UWBSVD_Verma(Rohsignal,KanalNr);
             Gefiltsignal(:,KanalNr)=filtersig(:,KanalNr);
         end
     end
@@ -69,6 +69,23 @@ if strcmp(RemovelAnsatz,'UWBEntropie')
         end
     end
 end
+
+if strcmp(RemovelAnsatz,'UWBWienerfilter')
+    for i=0:1:26;
+        KanalNr=IDChannel(i);
+        if isempty(KanalNr);
+            continue;
+        end
+        if length(KanalNr)==1;
+            Gefiltsignal(:,KanalNr)=Rohsignal(:,KanalNr);
+        end
+        if length(KanalNr)>=2;
+            filtersig=UWBWienerfilter(Rohsignal,KanalNr);
+            Gefiltsignal(:,KanalNr)=filtersig(:,KanalNr);
+        end
+    end
+end
+
 %%#3 Bewertung
 [PPRR,CM,MSE]=Bewertung(Rohsignal,Idealsignal,Gefiltsignal);
 end
