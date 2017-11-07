@@ -86,6 +86,21 @@ if strcmp(RemovelAnsatz,'UWBWienerfilter')
     end
 end
 
+if strcmp(RemovelAnsatz,'UWBRLS')
+    for i=0:1:26;
+        KanalNr=IDChannel(i);
+        if isempty(KanalNr);
+            continue;
+        end
+        if length(KanalNr)==1;
+            Gefiltsignal(:,KanalNr)=Rohsignal(:,KanalNr);
+        end
+        if length(KanalNr)>=2;
+            filtersig=UWBRLS(Rohsignal,KanalNr);
+            Gefiltsignal(:,KanalNr)=filtersig(:,KanalNr);
+        end
+    end
+end
 %%#3 Bewertung
 [PPRR,CM,MSE]=Bewertung(Rohsignal,Idealsignal,Gefiltsignal);
 end
